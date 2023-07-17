@@ -1,0 +1,2 @@
+Username: Yui, Password: Yui, Role: admin
+Username: user, Password: user, Role: member

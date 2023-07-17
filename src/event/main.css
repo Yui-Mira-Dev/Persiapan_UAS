@@ -1,0 +1,59 @@
+h5{
+    font-weight: bold;
+}
+
+a{
+    text-decoration: none;
+}
+
+.text-justify{
+    text-align: justify !important;
+    text-justify: inter-word;
+}
+
+.info-list{
+    display: flex;
+}
+
+.info-list-row{
+    display: flex;
+    justify-content: space-between;
+}
+
+.category{
+    color: rgba(208, 208, 206, 0.5);
+    font-weight: bold;
+    font-size: large;
+    margin-top: 12px
+}
+
+.detail{
+    font-weight: bold;
+    font-size: large;
+    margin-top: 12px;
+}
+
+.Quantum{
+    color: blueviolet;
+}
+
+.cone-teratas{
+    background-color: #009eec;
+    color: #fff;
+    font-size: 16px;
+    line-height: 16px;
+    margin: 0 10px;
+    padding: 5px 8px;
+}
+
+.lcone{
+    color: #fff;
+    font-size: 16px;
+    line-height: 16px;
+    margin: 0 10px;
+    padding: 5px 8px;
+}
+
+.reviw-text{
+    font-size: small;
+}
