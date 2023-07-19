@@ -1,2 +1,6 @@
-Username: Yui, Password: Yui, Role: admin
+Username: yui, Password: yui, Role: admin
 Username: user, Password: user, Role: member
+Username: admin, Password: admin, Role: admin
+Username: mira, Password: mira, Role: member
+Username: ramdan, Password: 12345, Role: member
+Username: CF-070-0022, Password: user, Role: admin

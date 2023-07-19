@@ -20,63 +20,204 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
 
     // Baca data registrasi dari file
-    $file = fopen('registration_data.txt', 'r');
+    $file = file('registration_data.txt', FILE_IGNORE_NEW_LINES);
     $validLogin = false;
     $role = '';
 
-    while (($line = fgets($file)) !== false) {
-        $line = trim($line);
+    foreach ($file as $line) {
         $credentials = explode(", ", $line);
         $storedUsername = explode(": ", $credentials[0])[1];
         $storedPassword = explode(": ", $credentials[1])[1];
         $storedRole = explode(": ", $credentials[2])[1];
 
-        // Periksa apakah kredensial yang dimasukkan cocok dengan data yang tersimpan
-        if ($username === $storedUsername && $password === $storedPassword) {
+        // Periksa apakah kredensial yang dimasukkan cocok dengan data yang tersimpan (case insensitive)
+        if (strcasecmp($username, $storedUsername) === 0 && $password === $storedPassword) {
             $validLogin = true;
             $role = $storedRole;
             break;
         }
     }
 
-    fclose($file);
-
     if ($validLogin) {
         // Tetapkan variabel sesi
         $_SESSION['user'] = $username;
         $_SESSION['role'] = $role;
 
-        // Alihkan pengguna ke halaman yang sesuai berdasarkan peran mereka
-        if ($role == 'admin') {
-            header('Location: ../../page/home_admin.php');
-            exit;
-        } else {
-            header('Location: ../../page/home.php');
-            exit;
-        }
+        // Tampilkan animasi penundaan selama 5 detik
+        echo '<!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Login Success</title>
+                    <style>
+                        @keyframes spin3D {
+                            from {
+                                transform: rotate3d(.5,.5,.5, 360deg);
+                            }
+                            to {
+                                transform: rotate3d(0deg);
+                            }
+                        }
+
+                        * {
+                            box-sizing: border-box;
+                        }
+
+                        body {
+                            min-height: 100vh;
+                            background-color: #1d2630;
+                            display: flex;
+                            justify-content: center;
+                            flex-wrap: wrap;
+                            align-items: center;
+                        }
+
+                        .spinner-box {
+                            width: 300px;
+                            height: 300px;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            background-color: transparent;
+                        }
+
+                        .leo {
+                            position: absolute;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            border-radius: 50%;
+                        }
+
+                        .blue-orbit {
+                            width: 165px;
+                            height: 165px;
+                            border: 1px solid #91daffa5;
+                            animation: spin3D 3s linear .2s infinite;
+                        }
+
+                        .green-orbit {
+                            width: 120px;
+                            height: 120px;
+                            border: 1px solid #91ffbfa5;
+                            animation: spin3D 2s linear 0s infinite;
+                        }
+
+                        .red-orbit {
+                            width: 90px;
+                            height: 90px;
+                            border: 1px solid #ffca91a5;
+                            animation: spin3D 1s linear 0s infinite;
+                        }
+
+                        .white-orbit {
+                            width: 60px;
+                            height: 60px;
+                            border: 2px solid #ffffff;
+                            animation: spin3D 10s linear 0s infinite;
+                        }
+
+                        .w1 {
+                            transform: rotate3D(1, 1, 1, 90deg);
+                        }
+
+                        .w2 {
+                            transform: rotate3D(1, 2, .5, 90deg);
+                        }
+
+                        .w3 {
+                            transform: rotate3D(.5, 1, 2, 90deg);
+                        }
+                    </style>
+                    <script>
+                        setTimeout(function() {
+                            window.location.href = "' . ($role == 'admin' ? '../../page/home_admin.php' : '../../page/home.php') . '";
+                        }, 5000);
+                    </script>
+                </head>
+                <body>
+                    <div class="spinner-box"></div>
+                    <div class="blue-orbit leo"></div>
+                    <div class="green-orbit leo"></div>
+                    <div class="red-orbit leo"></div>
+                    <div class="white-orbit w1 leo"></div>
+                    <div class="white-orbit w2 leo"></div>
+                    <div class="white-orbit w3 leo"></div>
+                </body>
+                </html>';
+        exit;
     } else {
-        // Tampilkan pesan kesalahan untuk kredensial yang tidak valid
-        $error = "Username atau password tidak valid";
+        // Redirect back to the login page with an error message only for invalid credentials
+        header("Location: login.php?error=invalid_credentials");
+        exit;
     }
 }
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Form Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../event/main.css">
+    <title>Login</title>
+    <style>
+        body {
+            background-color: #1d2630;
+        }
+        a{
+            text-decoration: none;
+            color: azure;
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            // Check if the URL contains an error parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const error = urlParams.get('error');
+
+            if (error && error === 'invalid_credentials') {
+                // Display an alert message for invalid credentials
+                alert('Username or password is invalid');
+            }
+        };
+    </script>
 </head>
 <body>
-    <h2>Form Login</h2>
-    <?php if (isset($error)) { ?>
-        <p><?php echo $error; ?></p>
-    <?php } ?>
-    <form method="POST" action="">
-        <label>Username:</label><br>
-        <input type="text" name="username"><br><br>
-        <label>Password:</label><br>
-        <input type="password" name="password"><br><br>
-        <input type="submit" value="Login">
-    </form>
+    <div class="container mb-5" style="margin-top: 125px;">
+        <div class="row justify-content-center">
+            <div class="card border-light mb-3 bg-primary p-2 text-dark bg-opacity-25 col-6 mx-auto" style="max-width: 29rem;">
+                <h2 class="card-header text-center">Login</h2>
+                <div class="card-body">
+                    <form METHOD="POST" NAME="input">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="floatingInput" placeholder="username" name="username">
+                            <label for="floatingInput">Username</label>
+                        </div>
+                        <div class="form-floating">
+                            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
+                            <label for="floatingPassword">Password</label>
+                        </div>
+                        <div class="form-check mt-2">
+                            <input class="form-check-input" type="checkbox" value="" id="exampleCheckbox">
+                            <label class="form-check-label" for="exampleCheckbox">
+                                remember Me
+                            </label>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-success mt-2" name="Login">Login</button>
+                            <!-- <a href="src/utils/back_page/register.php"><button type="btn" class="btn btn-info mt-2">Login</button></a> -->
+                        </div>
+                        <div>
+                            <p>Belum punya akun? <a href="register.php" class="text-success">Daftar</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>
 </html>
