@@ -1,9 +1,7 @@
 <?php
 session_start();
 
-// Periksa apakah pengguna sudah login
 if (isset($_SESSION['user'])) {
-    // Alihkan pengguna ke halaman yang sesuai berdasarkan peran mereka
     if ($_SESSION['role'] == 'admin' && !isset($_SESSION['redirected'])) {
         $_SESSION['redirected'] = true;
         header('Location: home_admin.php');
@@ -15,13 +13,10 @@ if (isset($_SESSION['user'])) {
     }
 }
 
-// Periksa apakah form login telah disubmit
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Validasi kredensial login
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Baca data registrasi dari file
     $file = fopen('../utils/login/registration_data.txt', 'r');
     $validLogin = false;
     $role = '';
@@ -33,7 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $storedPassword = explode(": ", $credentials[1])[1];
         $storedRole = explode(": ", $credentials[2])[1];
 
-        // Periksa apakah kredensial yang dimasukkan cocok dengan data yang tersimpan
         if ($username === $storedUsername && $password === $storedPassword) {
             $validLogin = true;
             $role = $storedRole;
@@ -71,16 +65,18 @@ $username = isset($_SESSION['user']) ? $_SESSION['user'] : '';
     <title>Halaman Admin</title>
     <script>
         window.onload = function() {
-            var username = "<?php echo $username; ?>";
-            var welcomeMessage = "";
+            if (performance.navigation.type !== 1) {
+                var username = "<?php echo $username; ?>";
+                var welcomeMessage = "";
 
-            if (username !== "") {
-                <?php if (!isset($_SESSION['user']) || (isset($_SESSION['user']) && $_SESSION['user'] !== $username)) : ?>
-                    welcomeMessage = "Selamat datang, " + username + "!";
-                <?php else : ?>
-                    welcomeMessage = "Selamat datang kembali, " + username + "!";
-                <?php endif; ?>
-                alert(welcomeMessage);
+                if (username !== "") {
+                    <?php if (!isset($_SESSION['user']) || (isset($_SESSION['user']) && $_SESSION['user'] !== $username)) : ?>
+                        welcomeMessage = "Selamat datang, " + username + "!";
+                    <?php else : ?>
+                        welcomeMessage = "Selamat datang kembali, " + username + "!";
+                    <?php endif; ?>
+                    alert(welcomeMessage);
+                }
             }
         };
     </script>

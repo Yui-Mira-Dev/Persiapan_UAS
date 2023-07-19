@@ -1,9 +1,7 @@
 <?php
 session_start();
 
-// Periksa apakah pengguna sudah login
 if (isset($_SESSION['user'])) {
-    // Alihkan pengguna ke halaman yang sesuai berdasarkan peran mereka
     if ($_SESSION['role'] == 'admin') {
         header('Location: ../../page/home_admin.php');
         exit;
@@ -33,7 +31,6 @@ if (isset($_SESSION['user'])) {
     </style>
     <?php
     if (isset($_GET['error']) && $_GET['error'] === 'invalid_credentials') {
-        // Display an alert message for invalid credentials
         echo '<script>alert("Username or password is invalid");</script>';
     }
     ?>

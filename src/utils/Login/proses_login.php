@@ -1,9 +1,7 @@
 <?php
 session_start();
 
-// Periksa apakah pengguna sudah login
 if (isset($_SESSION['user'])) {
-    // Alihkan pengguna ke halaman yang sesuai berdasarkan peran mereka
     if ($_SESSION['role'] == 'admin') {
         header('Location: ../../page/home_admin.php');
         exit;
@@ -13,13 +11,10 @@ if (isset($_SESSION['user'])) {
     }
 }
 
-// Periksa apakah form login telah disubmit
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Validasi kredensial login
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Baca data registrasi dari file
     $file = file('registration_data.txt', FILE_IGNORE_NEW_LINES);
     $validLogin = false;
     $role = '';
@@ -30,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $storedPassword = explode(": ", $credentials[1])[1];
         $storedRole = explode(": ", $credentials[2])[1];
 
-        // Periksa apakah kredensial yang dimasukkan cocok dengan data yang tersimpan (case insensitive)
         if (strcasecmp($username, $storedUsername) === 0 && $password === $storedPassword) {
             $validLogin = true;
             $role = $storedRole;
@@ -39,11 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($validLogin) {
-        // Tetapkan variabel sesi
         $_SESSION['user'] = $username;
         $_SESSION['role'] = $role;
 
-        // Tampilkan animasi penundaan selama 5 detik
         echo '<!DOCTYPE html>
                 <html>
                 <head>

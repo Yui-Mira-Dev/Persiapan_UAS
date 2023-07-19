@@ -6,6 +6,8 @@ bug fix:
 
 -di sistem login terdapat bug yg mana windownya langsung kebuka
 
+-memperbaiki bug yg mana ketika halaman di refresh fungsi window.onload masih tetap jalan 
+
 to do:
 
 -merapihkan halaman home
