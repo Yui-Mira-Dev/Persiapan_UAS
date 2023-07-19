@@ -15,7 +15,6 @@ if (isset($_SESSION['user'])) {
     }
 }
 
-
 // Periksa apakah form login telah disubmit
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validasi kredensial login
@@ -43,8 +42,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($validLogin) {
+        if (isset($_SESSION['user']) && $_SESSION['user'] !== $username) {
+            $welcomeMessage = "Selamat datang, " . $username . "!";
+        } else {
+            $welcomeMessage = "Selamat datang kembali, " . $username . "!";
+        }
         $_SESSION['user'] = $username;
         $_SESSION['role'] = $role;
+        $_SESSION['redirected'] = true;
+
+        if ($role == 'admin') {
+            header('Location: home_admin.php');
+        } elseif ($role == 'member') {
+            header('Location: home.php');
+        }
+        exit;
     } else {
         echo "Invalid username or password. Please try again.";
     }
@@ -60,8 +72,14 @@ $username = isset($_SESSION['user']) ? $_SESSION['user'] : '';
     <script>
         window.onload = function() {
             var username = "<?php echo $username; ?>";
+            var welcomeMessage = "";
+
             if (username !== "") {
-                var welcomeMessage = "Selamat datang, " + username + "!";
+                <?php if (!isset($_SESSION['user']) || (isset($_SESSION['user']) && $_SESSION['user'] !== $username)) : ?>
+                    welcomeMessage = "Selamat datang, " + username + "!";
+                <?php else : ?>
+                    welcomeMessage = "Selamat datang kembali, " + username + "!";
+                <?php endif; ?>
                 alert(welcomeMessage);
             }
         };
