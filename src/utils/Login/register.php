@@ -30,7 +30,7 @@
             <div class="card border-light mb-3 bg-primary p-2 bg-opacity-25 col-6 mx-auto" style="max-width: 29rem;">
                 <h2 class="card-header text-center">Register</h2>
                 <div class="card-body">
-                    <form ACTION="proses_register.php" method="POST">
+                    <form ACTION="proses_register" method="POST">
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="floatingInput" placeholder="username" name="username">
                             <label for="floatingInput">Nama</label>

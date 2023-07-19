@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($caseSensitiveUsername) {
         $errorMessage = 'Username sudah ada. Silakan pilih username yang lain.';
-        header('Location: register.php?error=' . urlencode($errorMessage));
+        header('Location: register?error=' . urlencode($errorMessage));
         exit;
     } else {
         $data = "Username: " . $username . ", Password: " . $password . ", Role: member" . PHP_EOL;
@@ -112,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </style>
                     <script>
                         setTimeout(function() {
-                            window.location.href = "login.php";
+                            window.location.href = "login";
                         }, 5000);
                     </script>
                 </head>

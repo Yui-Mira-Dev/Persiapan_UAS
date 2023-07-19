@@ -3,10 +3,10 @@ session_start();
 
 if (isset($_SESSION['user'])) {
     if ($_SESSION['role'] == 'admin') {
-        header('Location: ../../page/home_admin.php');
+        header('Location: ../../../admin');
         exit;
     } else {
-        header('Location: ../../page/home.php');
+        header('Location: ../../../home');
         exit;
     }
 }
@@ -41,7 +41,7 @@ if (isset($_SESSION['user'])) {
             <div class="card border-light mb-3 bg-primary p-2 text-dark bg-opacity-25 col-6 mx-auto" style="max-width: 29rem;">
                 <h2 class="card-header text-center">Login</h2>
                 <div class="card-body">
-                    <form ACTION="proses_login.php" METHOD="POST" NAME="input">
+                    <form ACTION="proses_login" METHOD="POST" NAME="input">
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="floatingInput" placeholder="username" name="username">
                             <label for="floatingInput">Username</label>
@@ -61,7 +61,7 @@ if (isset($_SESSION['user'])) {
                             <!-- <a href="src/utils/back_page/register.php"><button type="btn" class="btn btn-info mt-2">Login</button></a> -->
                         </div>
                         <div>
-                            <p>Belum punya akun? <a href="register.php" class="text-success">Daftar</a></p>
+                        <p>Belum punya akun? <a href="/php1/register" class="text-success">Daftar</a></p>
                         </div>
                     </form>
                 </div>

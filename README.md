@@ -1,12 +1,24 @@
+New feature <v0.7>:
+
+-menambahkan httpd dan htaccess
+
+-sekarang mengakses file lebih mudah karena htaccess
+
+-menghilangkan penggunaan .php pada url :>
+
 bug:
 
--sistem register yg masih terbatas membuat sistem tidak bisa membaca apakah pengguna user baru atau bukan 
+-sistem register yg masih terbatas membuat sistem tidak bisa membaca apakah pengguna user baru atau bukan <Sedang di pikirkan solusinya>
+
+-bisa login tanpa memasukan apapun
 
 bug fix:
 
--di sistem login terdapat bug yg mana windownya langsung kebuka
+-memperbaiki bug request overload
 
--memperbaiki bug yg mana ketika halaman di refresh fungsi window.onload masih tetap jalan 
+-di sistem login terdapat bug yg mana windownya langsung kebuka <v0.6 √>
+
+-memperbaiki bug yg mana ketika halaman di refresh fungsi window.onload masih tetap jalan  <v0.6 √>
 
 to do:
 

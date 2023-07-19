@@ -4,13 +4,22 @@ session_start();
 if (isset($_SESSION['user'])) {
     if ($_SESSION['role'] == 'admin' && !isset($_SESSION['redirected'])) {
         $_SESSION['redirected'] = true;
-        header('Location: home_admin.php');
+        header('Location: admin');
         exit;
     } elseif ($_SESSION['role'] == 'member' && !isset($_SESSION['redirected'])) {
         $_SESSION['redirected'] = true;
-        header('Location: home.php');
+        header('Location: home');
         exit;
     }
+}
+
+if (isset($_POST['logout'])) {
+    session_destroy(); // Hapus sesi pengguna
+    $_SESSION = array(); // Kosongkan array sesi
+
+    // Arahkan ke halaman utama
+    header("Location: logout");
+    exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -46,9 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['redirected'] = true;
 
         if ($role == 'admin') {
-            header('Location: home_admin.php');
+            header('Location: admin');
         } elseif ($role == 'member') {
-            header('Location: home.php');
+            header('Location: home');
         }
         exit;
     } else {
@@ -85,11 +94,15 @@ $username = isset($_SESSION['user']) ? $_SESSION['user'] : '';
     <?php if ($username && $_SESSION['role'] === 'admin') : ?>
         <h2>Selamat datang, <?php echo $username; ?>!</h2>
         <p>Ini adalah halaman Admin.</p>
-        <a href="../utils/login/logout.php">Logout</a>
+        <form action="" method="POST">
+            <input type="submit" name="logout" value="Logout">
+        </form>
     <?php elseif ($username && $_SESSION['role'] === 'member') : ?>
         <h2>Warning!</h2>
         <p>Anda tidak memiliki akses ke halaman ini.</p>
-        <a href="../utils/login/logout.php">Logout</a>
+        <form action="" method="POST">
+            <input type="submit" name="logout" value="Logout">
+        </form>
     <?php else : ?>
         <h2>Warning!</h2>
         <p>Anda tidak memiliki akses ke halaman ini.</p>

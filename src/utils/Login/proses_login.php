@@ -3,10 +3,10 @@ session_start();
 
 if (isset($_SESSION['user'])) {
     if ($_SESSION['role'] == 'admin') {
-        header('Location: ../../page/home_admin.php');
+        header('Location: admin');
         exit;
     } else {
-        header('Location: ../../page/home.php');
+        header('Location: home');
         exit;
     }
 }
@@ -122,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </style>
                     <script>
                         setTimeout(function() {
-                            window.location.href = "' . ($role == 'admin' ? '../../page/home_admin.php' : '../../page/home.php') . '";
+                            window.location.href = "' . ($role == 'admin' ? 'admin' : 'home') . '";
                         }, 5000);
                     </script>
                 </head>
@@ -138,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </html>';
         exit;
     } else {
-        header('Location: login.php?error=invalid_credentials');
+        header('Location: login?error=invalid_credentials');
         exit;
     }
 }
