@@ -1,8 +1,10 @@
 bug:
 
--di sistem login terdapat bug yg mana windownya langsung kebuka
-
 -sistem register yg masih terbatas membuat sistem tidak bisa membaca apakah pengguna user baru atau bukan 
+
+bug fix:
+
+-di sistem login terdapat bug yg mana windownya langsung kebuka
 
 to do:
 
