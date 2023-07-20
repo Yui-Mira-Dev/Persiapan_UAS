@@ -53,7 +53,7 @@ if (isset($_POST['hapus_data'])) {
 if (isset($_SESSION['user'])) {
     if ($_SESSION['role'] == 'admin' && !isset($_SESSION['redirected'])) {
         $_SESSION['redirected'] = true;
-        header('Location: admin');
+        header('Location: home');
         exit;
     } elseif ($_SESSION['role'] == 'member' && !isset($_SESSION['redirected'])) {
         $_SESSION['redirected'] = true;
@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['redirected'] = true;
 
         if ($role == 'admin') {
-            header('Location: admin');
+            header('Location: home');
         } elseif ($role == 'member') {
             header('Location: home');
         }
@@ -233,13 +233,7 @@ $username = isset($_SESSION['user']) ? $_SESSION['user'] : '';
         <div class="d-flex justify-content-center align-items-center overflow-y-hidden" style="min-height: 80vh; flex-direction:column;">
             <h2>Warning!</h2>
             <p>Please login to access this page.</p>
-            <form action="" method="POST">
-                <label for="username">Username:</label>
-                <input type="text" name="username" id="username" required><br>
-                <label for="password">Password:</label>
-                <input type="password" name="password" id="password" required><br>
-                <input type="submit" value="Login">
-            </form>
+            <button class="btn btn-success"><a href="login">Back To Login</a></button>
         </div>
     <?php endif; ?>
 </section>
