@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+// yg punya home1
 if (
     isset($_SESSION['npm']) &&
     isset($_SESSION['namaLengkap']) &&
@@ -30,70 +31,105 @@ if (
 }
 
 if (isset($_POST['hapus_data'])) {
-    session_unset();
-    session_destroy();
-    header("Location: ../page/home.php");
+    // Unset specific session variables
+    unset($_SESSION['npm']);
+    unset($_SESSION['namaLengkap']);
+    unset($_SESSION['tempatLahir']);
+    unset($_SESSION['tanggalLahir']);
+    unset($_SESSION['agama']);
+    unset($_SESSION['angkatan']);
+    unset($_SESSION['email']);
+    unset($_SESSION['jurusan']);
+    unset($_SESSION['jenisKelamin']);
+    unset($_SESSION['hobby']);
+    unset($_SESSION['alamat']);
+
+    header("Location: home");
     exit();
 }
+
+// end
+
+if (isset($_SESSION['user'])) {
+    if ($_SESSION['role'] == 'admin' && !isset($_SESSION['redirected'])) {
+        $_SESSION['redirected'] = true;
+        header('Location: admin');
+        exit;
+    } elseif ($_SESSION['role'] == 'member' && !isset($_SESSION['redirected'])) {
+        $_SESSION['redirected'] = true;
+        header('Location: home');
+        exit;
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    $file = fopen('../utils/login/registration_data.txt', 'r');
+    $validLogin = false;
+    $role = '';
+
+    while (($line = fgets($file)) !== false) {
+        $line = trim($line);
+        $credentials = explode(", ", $line);
+        $storedUsername = explode(": ", $credentials[0])[1];
+        $storedPassword = explode(": ", $credentials[1])[1];
+        $storedRole = explode(": ", $credentials[2])[1];
+
+        if ($username === $storedUsername && $password === $storedPassword) {
+            $validLogin = true;
+            $role = $storedRole;
+            break;
+        }
+    }
+
+    if ($validLogin) {
+        if (isset($_SESSION['user']) && $_SESSION['user'] !== $username) {
+            $welcomeMessage = "Selamat datang, " . $username . "!";
+        } else {
+            $welcomeMessage = "Selamat datang kembali, " . $username . "!";
+        }
+        $_SESSION['user'] = $username;
+        $_SESSION['role'] = $role;
+        $_SESSION['redirected'] = true;
+
+        if ($role == 'admin') {
+            header('Location: admin');
+        } elseif ($role == 'member') {
+            header('Location: home');
+        }
+        exit;
+    } else {
+        echo "Invalid username or password. Please try again.";
+    }
+}
+
+$username = isset($_SESSION['user']) ? $_SESSION['user'] : '';
 ?>
 
-<!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="../event/main.css">
-    <title>Home</title>
-</head>
-<body>
-    <header>
-        <nav class="navbar bg-body-tertiary fixed-top">
-            <div class="container">
-                <a class="navbar-brand" href="#">Dashboard</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-                    <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                        <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                        <a class="nav-link" href="#profile">About</a>
-                        </li>
-                        <li class="nav-item">
-                        <a class="nav-link" href="kalkulator.php">Kalkulator</a>
-                        </li>
-                        <li class="nav-item">
-                        <a class="nav-link" href="../../index.php">login</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Contact
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="https://wa.me/+6282186403388" target="_blank">
-                                <i class="bi bi-whatsapp"></i> Whatsapp</a></li>
-                            <li><a class="dropdown-item" href="https://www.facebook.com/profile.php?id=100010604971777" target="_blank"><i class="bi bi-facebook"></i> Facebook</a></li>
-                            <li><a class="dropdown-item" href="https://www.instagram.com/adeilhamw/" target="_blank"><i class="bi bi-instagram"></i> Instagram</a>
-                            </li>
-                        </ul>
-                        </li>
-                    </ul>
-                    </div>
-                </div>
-                </div>
-            </nav>
-    </header>
+<section>
+    <script>
+        window.onload = function() {
+            if (performance.navigation.type !== 1) {
+                var username = "<?php echo $username; ?>";
+                var welcomeMessage = "";
+
+                if (username !== "") {
+                    <?php if (!isset($_SESSION['user']) || (isset($_SESSION['user']) && $_SESSION['user'] !== $username)) : ?>
+                        welcomeMessage = "Selamat datang, " + username + "!";
+                    <?php else : ?>
+                        welcomeMessage = "Selamat datang kembali, " + username + "!";
+                    <?php endif; ?>
+                    alert(welcomeMessage);
+                }
+            }
+        };
+    </script>
+    <?php if ($username): ?>
+        
     <main style="overflow: auto;">
-        <section id="home" class="home mt-5 bg-info-subtle text-center">
+        <section id="home" class="home bg-info-subtle text-center">
             <div class="rounded-circle p-3">
                 <img class="rounded-circle rounded p-3" src="https://sisak1.polsri.ac.id/assets/images/avatar-1.jpg" width="30%" height="50%">
             </div>
@@ -178,7 +214,7 @@ if (isset($_POST['hapus_data'])) {
                 </div>
                 <div class="accordion-item mt-2">
                     <h2 class="accordion-header">
-                    <a href="../utils/form.php">
+                    <a href="form">
                         <button class="accordion-button" type="button" >
                             <span class="cone-teratas">2</span>
                             <div>
@@ -192,6 +228,18 @@ if (isset($_POST['hapus_data'])) {
             </div>
         </section>
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-</body>
-</html>
+
+    <?php else: ?>
+        <div class="d-flex justify-content-center align-items-center overflow-y-hidden" style="min-height: 80vh; flex-direction:column;">
+            <h2>Warning!</h2>
+            <p>Please login to access this page.</p>
+            <form action="" method="POST">
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username" required><br>
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" required><br>
+                <input type="submit" value="Login">
+            </form>
+        </div>
+    <?php endif; ?>
+</section>

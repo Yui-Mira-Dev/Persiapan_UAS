@@ -3,12 +3,19 @@ RewriteEngine On
 
 # index
 RewriteRule ^index$ index.php [L]
+# layout
+RewriteRule ^layout/?$ src/layout/layout.php [L]
 # page
 RewriteRule ^home/?$ src/page/home.php [L]
 RewriteRule ^admin/?$ src/page/home_admin.php [L]
+RewriteRule ^form/?$ src/page/form.php [L]
 # utils
 RewriteRule ^logout/?$ src/utils/login/logout.php [L]
 RewriteRule ^login/?$ src/utils/login/login.php [L]
 RewriteRule ^register/?$ src/utils/login/register.php [L]
 RewriteRule ^proses_login$ src/utils/login/proses_login.php [L]
 RewriteRule ^proses_register/?$ src/utils/login/proses_register.php [L]
+RewriteRule ^main.css/?$ src/css/main.css [L]
+# Remove the RewriteRule for page number
+
+

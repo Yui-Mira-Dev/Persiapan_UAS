@@ -3,10 +3,10 @@ session_start();
 
 if (isset($_SESSION['user'])) {
     if ($_SESSION['role'] == 'admin') {
-        header('Location: ../../../admin');
+        header('Location: admin');
         exit;
     } else {
-        header('Location: ../../../home');
+        header('Location: home');
         exit;
     }
 }

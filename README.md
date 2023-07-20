@@ -1,18 +1,31 @@
-New feature <v0.7>:
+PENTING!!!
 
--menambahkan httpd dan htaccess
+Ubah nama folder jadi php1 dulu sebelum membukanya di browser 
 
--sekarang mengakses file lebih mudah karena htaccess
+==================================================================================================================
 
--menghilangkan penggunaan .php pada url :>
+New feature <v0.8>:
+
+-menggabungkan navbar
+
+Last New feature:
+
+-menambahkan httpd dan htaccess <v0.7 √>
+
+-sekarang mengakses file lebih mudah karena htaccess <v0.7 √>
+
+-menghilangkan penggunaan .php pada url :> <v0.7 √>
 
 bug:
 
--sistem register yg masih terbatas membuat sistem tidak bisa membaca apakah pengguna user baru atau bukan <Sedang di pikirkan solusinya>
+-tidak bisa membuat page menjadi sub page di satu file <v0.8>
+
 
 -bisa login tanpa memasukan apapun
 
 bug fix:
+
+-sistem register yg masih terbatas membuat sistem tidak bisa membaca apakah pengguna user baru atau bukan <bug fix v0.8 √>
 
 -memperbaiki bug request overload
 
