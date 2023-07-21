@@ -10,6 +10,7 @@ RewriteRule ^home/?$ src/page/home.php [L]
 RewriteRule ^admin/?$ src/page/home_admin.php [L]
 RewriteRule ^form/?$ src/page/form.php [L]
 # utils
+RewriteRule ^secret/locked/admin/data/registration_data/?$ src/utils/login/registration_data.txt [L]
 RewriteRule ^logout/?$ src/utils/login/logout.php [L]
 RewriteRule ^login/?$ src/utils/login/login.php [L]
 RewriteRule ^register/?$ src/utils/login/register.php [L]
