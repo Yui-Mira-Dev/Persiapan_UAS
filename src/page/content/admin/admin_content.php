@@ -1,5 +1,5 @@
 <?php
-$baseUrl = 'http://localhost/php1/admin';
+$baseUrl = 'admin';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['login'])) {
@@ -146,6 +146,63 @@ function editUserRole($username, $newRole)
     echo "Role pengguna berhasil diubah.";
     header('Location: ' . $GLOBALS['baseUrl']);
 }
+
+if (isset($_SESSION['user'])) {
+    if ($_SESSION['role'] == 'admin' && !isset($_SESSION['redirected'])) {
+        $_SESSION['redirected'] = true;
+        header('Location: home');
+        exit;
+    } elseif ($_SESSION['role'] == 'member' && !isset($_SESSION['redirected'])) {
+        $_SESSION['redirected'] = true;
+        header('Location: home');
+        exit;
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    $file = fopen('secret/locked/admin/data/registration_data', 'r');
+    $validLogin = false;
+    $role = '';
+
+    while (($line = fgets($file)) !== false) {
+        $line = trim($line);
+        $credentials = explode(", ", $line);
+        $storedUsername = explode(": ", $credentials[0])[1];
+        $storedPassword = explode(": ", $credentials[1])[1];
+        $storedRole = explode(": ", $credentials[2])[1];
+
+        if ($username === $storedUsername && $password === $storedPassword) {
+            $validLogin = true;
+            $role = $storedRole;
+            break;
+        }
+    }
+
+    if ($validLogin) {
+        if (isset($_SESSION['user']) && $_SESSION['user'] !== $username) {
+            $welcomeMessage = "Selamat datang, " . $username . "!";
+        } else {
+            $welcomeMessage = "Selamat datang kembali, " . $username . "!";
+        }
+        $_SESSION['user'] = $username;
+        $_SESSION['role'] = $role;
+        $_SESSION['redirected'] = true;
+
+        if ($role == 'admin') {
+            header('Location: home');
+        } elseif ($role == 'member') {
+            header('Location: home');
+        }
+        exit;
+    } else {
+        echo "Nama pengguna atau kata sandi salah. Silakan coba lagi.";
+    }
+}
+
+$username = isset($_SESSION['user']) ? $_SESSION['user'] : '';
 ?>
 
 <!--Content-->
