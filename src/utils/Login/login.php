@@ -61,7 +61,7 @@ if (isset($_SESSION['user'])) {
                             <!-- <a href="src/utils/back_page/register.php"><button type="btn" class="btn btn-info mt-2">Login</button></a> -->
                         </div>
                         <div>
-                        <p>Belum punya akun? <a href="/php1/register" class="text-success">Daftar</a></p>
+                        <p>Belum punya akun? <a href="register" class="text-success">Daftar</a></p>
                         </div>
                     </form>
                 </div>

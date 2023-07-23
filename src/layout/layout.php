@@ -18,10 +18,10 @@
     <title><?php echo isset($pageTitle) ? $pageTitle : 'Judul Default'; ?></title>
 </head>
 <body>
-    <div class="mt-5 container">
+    <div class="">
     <?php if ($username): ?>
             <header>
-            <nav class="navbar bg-body-tertiary fixed-top">
+            <nav class="navbar bg-body-tertiary ">
                 <div class="container">
                     <a class="navbar-brand" href="#"><?= isset($navbar) ? $navbar : 'Navbar'; ?></a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
@@ -77,7 +77,7 @@
         <div class="d-flex justify-content-center align-items-center overflow-y-hidden" style="min-height: 80vh; flex-direction:column;">
             <h2>Peringatan!</h2>
             <p>Silakan login untuk mengakses halaman ini.</p>
-            <button class="btn btn-success"><a href="login">Kembali ke Halaman Login</a></button>
+            <a class="btn btn-success" href="login">Kembali ke Halaman Login</a>
         </div>
     <?php endif; ?>
     </div>	
